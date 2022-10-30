@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using RestWithASPNET.Repository;
+using RestWithASPNET.Repository.Implementations;
 
 namespace RestWithASPNET
 {
@@ -38,7 +40,8 @@ namespace RestWithASPNET
             services.AddApiVersioning();
 
             //Dependency Injection
-            services.AddScoped<IPersonRepository, PersonServiceImplementation>();
+            services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
+            services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
 
         }
 

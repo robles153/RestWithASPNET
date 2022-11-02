@@ -12,6 +12,7 @@ namespace RestWithASPNET.Controllers
     {
 
         private readonly ILogger<PersonController> _logger;
+
         private IPersonBusiness _personBusiness;
         public PersonController(ILogger<PersonController> logger, IPersonBusiness personBusiness)
         {
@@ -30,10 +31,7 @@ namespace RestWithASPNET.Controllers
         public IActionResult Get(long id)
         {
             var person = _personBusiness.FindById(id);
-            if (person == null)
-            {
-                return NotFound();
-            }
+            if (person == null) return NotFound();
             return Ok(person);
 
         }   

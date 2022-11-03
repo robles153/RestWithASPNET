@@ -1,11 +1,8 @@
-﻿using RestWithASPNET.Model;
-using RestWithASPNET.Model.Context;
+﻿using RestWithASPNET.Data.Converter.Implementations;
+using RestWithASPNET.Data.VO;
+using RestWithASPNET.Model;
 using RestWithASPNET.Repository;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace RestWithASPNET.Business.Implementations
 {
@@ -13,35 +10,44 @@ namespace RestWithASPNET.Business.Implementations
     {
         private readonly IRepository<Person> _repository;
 
+        private readonly PersonConverter _converter;
+                
                 
         public PersonBusinessImplementation(IRepository<Person> repository)
         {
             _repository = repository;
+            _converter = new PersonConverter();
         }
 
-        public List<Person> FindAll()
+        public List<PersonVO> FindAll()
         {
-            List<Person> persons = new List<Person>();
-
-            return _repository.FindAll();
-        }
-
-
-        public Person FindById(long id)
-        {
-            return _repository.FindById(id);
+            
+            return _converter.Parse(_repository.FindAll());
         }
 
 
-        public Person Create(Person person)
+        public PersonVO FindById(long id)
         {
-          
-            return _repository.Create(person);
+            return _converter.Parse(_repository.FindById(id));
         }
 
-        public Person Update(Person person)
+
+        public PersonVO Create(PersonVO person)
         {
-            return _repository.Update(person);
+            var personEntity = _converter.Parse(person);
+            personEntity = _repository.Create(personEntity);
+            return _converter.Parse(personEntity);
+
+            
+        }
+
+        public PersonVO Update(PersonVO person)
+        {
+            
+            var personEntity = _converter.Parse(person);
+            personEntity = _repository.Update(personEntity);
+            return _converter.Parse(personEntity);
+
         }
 
         public void Delete(long id)

@@ -18,6 +18,7 @@ using RestWithASPNET.Repository;
 
 using Serilog;
 using RestWithASPNET.Repository.Generic;
+using Microsoft.Net.Http.Headers;
 
 namespace RestWithASPNET
 {
@@ -50,6 +51,15 @@ namespace RestWithASPNET
             {
                 MigrateDatabase(connection);
             }
+
+            services.AddMvc(options =>
+            {
+                options.RespectBrowserAcceptHeader = true;
+
+                options.FormatterMappings.SetMediaTypeMappingForFormat("xml", MediaTypeHeaderValue.Parse("application/xml"));
+                options.FormatterMappings.SetMediaTypeMappingForFormat("json", MediaTypeHeaderValue.Parse("application/json"));
+            })
+                .AddXmlSerializerFormatters();
 
 
             //Versioning API

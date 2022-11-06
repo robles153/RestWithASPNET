@@ -1,0 +1,1 @@
+ALTER TABLE `person` ENGINE=InnoDB DEFAULT CHARSET=latin1;
